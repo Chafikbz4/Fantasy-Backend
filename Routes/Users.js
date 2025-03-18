@@ -1,26 +1,26 @@
 import { json, Router } from "express";
+import { isAuth } from "../middelewar/AuthMidddelware.js";
+import {
+  getUserdata,
+  getUsers,
+  getUserteam,
+} from "../controlles/usercontrole.js";
 
 const Users = Router();
 
-//get all users with classment
+//get all users with classment (sorted)
 
-Users.get("/", (req, res) => {
-  res.status(201).json({ message: "get all users" });
+Users.get("/", isAuth, getUsers);
+
+//get user data
+Users.get("/:id", isAuth, getUserdata);
+
+//get user Team
+Users.get("/:id/Team", isAuth, getUserteam);
+
+//update user team
+Users.put("/:id/Team", isAuth, (req, res) => {
+  res.status(201).json({ message: "update user Team" });
 });
 
 export default Users;
-
-//get user data
-Users.get("/:id", (req, res) => {
-  res.status(201).json({ message: "get user data" });
-});
-
-//get user Team
-Users.get("/:id/Team", (req, res) => {
-  res.status(201).json({ message: "user team " });
-});
-
-//update user team
-Users.put("/:id/Team", (req, res) => {
-  res.status(201).json({ message: "update user Team" });
-});
