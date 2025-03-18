@@ -31,15 +31,14 @@ const userSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    Team: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Player",
-      },
-    ],
+    Team: {
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Player" }], // Array of Player references
+      default: [], // Starts as an empty array
+    },
     captinId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Player",
+      default: null,
     },
   },
   { timestamps: true }
