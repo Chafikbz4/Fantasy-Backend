@@ -47,10 +47,25 @@ export const UpdatePlayer = async (req, res, next) => {
     const updatedPlayer = await Player.findByIdAndUpdate(
       req.params.id,
       { points: newPoints, availabel: isAvailble ?? false },
-      { new: true } // Return updated document
+      { new: true }
     );
 
     res.status(200).json({ success: true, data: updatedPlayer });
+    next();
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// Reset Players to 0
+
+export const ResetPlayer = async (req, res, next) => {
+  try {
+    await Player.updateMany({}, { $set: { points: 0 } });
+
+    res
+      .status(200)
+      .json({ success: true, message: "All players reset successfully" });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -69,6 +84,7 @@ export const DeletPlayer = async (req, res, next) => {
     res
       .status(200)
       .json({ success: true, message: "Player deleted successfully" });
+    next();
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
