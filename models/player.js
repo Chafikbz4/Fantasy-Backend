@@ -11,6 +11,7 @@ const playerSchema = mongoose.Schema(
     },
     availabel: {
       type: Boolean,
+      default: true,
     },
     points: {
       type: Number,

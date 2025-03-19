@@ -2,7 +2,7 @@ import { JWT_SECRET } from "../config/env.js";
 import jwt from "jsonwebtoken";
 import User from "../models/user.js";
 
-export const isAuth = async (req, resizeBy, next) => {
+export const isAuth = async (req, res, next) => {
   try {
     let token;
     if (
@@ -11,21 +11,26 @@ export const isAuth = async (req, resizeBy, next) => {
     ) {
       token = req.headers.authorization.split(" ")[1];
     }
+
     if (!token) {
       return res
         .status(401)
-        .json({ message: "Unauthorized no token provided" });
+        .json({ message: "Unauthorized: No token provided" });
     }
+
     const decoded = jwt.verify(token, JWT_SECRET);
-    const user = await User.findById(decoded.userId);
+    const user = await User.findById(decoded.userId); // Added `await`
+
     if (!user) {
-      return res.status(401).json({ message: "Unothorised user not found" });
+      return res.status(401).json({ message: "Unauthorized: User not found" });
     }
-    req.user = user;
+
+    req.user = user; // Attach user to request
     next();
   } catch (error) {
-    res
-      .status(401)
-      .json({ message: "unothorized: Invalide token", error: error.message });
+    return res.status(401).json({
+      message: "Unauthorized: Invalid token",
+      error: error.message,
+    });
   }
 };

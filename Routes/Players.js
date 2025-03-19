@@ -1,21 +1,20 @@
 import { Router } from "express";
+import { isAuth } from "../middelewar/AuthMidddelware.js";
+import {
+  CreatPlayer,
+  DeletPlayer,
+  GetPlayers,
+  UpdatePlayer,
+} from "../controlles/playercontrolle.js";
 
 const Player = Router();
 
-Player.get("/", (req, res) => {
-  res.status(201).json({ message: "get all Players" });
-});
+Player.get("/", isAuth, GetPlayers);
 
-Player.post("/Creat-Player", (req, res) => {
-  res.status(201).json({ message: "creat a new player" });
-});
+Player.post("/Creat-Player", isAuth, CreatPlayer);
 
-Player.put("/Update-Player/:id", (req, res) => {
-  res.status(201).json({ message: "update spesifice player" });
-});
+Player.put("/Update-Player/:id", isAuth, UpdatePlayer);
 
-Player.delete("/Delet-Player/:id", (req, res) => {
-  res.status(201).json({ message: "delet a player" });
-});
+Player.delete("/Delet-Player/:id", isAuth, DeletPlayer);
 
 export default Player;
