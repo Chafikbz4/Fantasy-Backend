@@ -11,10 +11,10 @@ const Player = Router();
 
 Player.get("/", isAuth, GetPlayers);
 
-Player.post("/Creat-Player", isAuth, CreatPlayer);
+Player.post("/admin/Creat-Player", isAuth, CreatPlayer);
 
-Player.put("/Update-Player/:id", isAuth, UpdatePlayer);
+Player.put("/admin/Update-Player/:id", isAuth, UpdatePlayer);
 
-Player.delete("/Delet-Player/:id", isAuth, DeletPlayer);
+Player.delete("admin/Delet-Player/:id", isAuth, DeletPlayer);
 
 export default Player;

@@ -33,19 +33,20 @@ export const CreatPlayer = async (req, res, next) => {
 // update player points
 export const UpdatePlayer = async (req, res, next) => {
   try {
-    const { redcart, yellowcart, manOfMatch } = req.body;
+    const { redcart, yellowcart, manOfMatch, isAvailble } = req.body;
     const player = await Player.findById(req.params.id);
     if (!player) {
-      res.status(401).json({ message: "There is no Palayer" });
+      return res.status(401).json({ message: "There is no Palayer" });
     }
     let newPoints = player.points;
     newPoints = newPoints + -2 * Number(yellowcart) + -4 * Number(redcart);
     if (manOfMatch) {
       newPoints = newPoints + 10;
     }
+
     const updatedPlayer = await Player.findByIdAndUpdate(
       req.params.id,
-      { points: newPoints },
+      { points: newPoints, availabel: isAvailble ?? false },
       { new: true } // Return updated document
     );
 
@@ -60,7 +61,7 @@ export const DeletPlayer = async (req, res, next) => {
   try {
     const player = await Player.findById(req.params.id);
     if (!player) {
-      res.status(401).json({ message: "no player Found" });
+      return res.status(401).json({ message: "no player Found" });
     }
 
     await Player.findByIdAndDelete(req.params.id); // Delete player
