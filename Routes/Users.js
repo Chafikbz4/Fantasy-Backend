@@ -4,7 +4,11 @@ import {
   getUserdata,
   getUsers,
   getUserteam,
+  PutPoit,
+  UpdateTeam,
+  RestartWeek,
 } from "../controlles/usercontrole.js";
+import User from "../models/user.js";
 
 const Users = Router();
 
@@ -19,8 +23,11 @@ Users.get("/:id", isAuth, getUserdata);
 Users.get("/:id/Team", isAuth, getUserteam);
 
 //update user team
-Users.put("/:id/Team", isAuth, (req, res) => {
-  res.status(201).json({ message: "update user Team" });
-});
+Users.put("/:id/Team", isAuth, UpdateTeam);
+
+// Calcultae the user point
+Users.put("/admin/Update-points", isAuth, PutPoit);
+
+Users.put("/admin/ResterWeek", isAuth, RestartWeek);
 
 export default Users;

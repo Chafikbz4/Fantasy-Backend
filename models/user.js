@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import { playerSchema } from "./player.js";
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -32,8 +32,8 @@ const userSchema = new mongoose.Schema(
       default: 0,
     },
     Team: {
-      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Player" }], // Array of Player references
-      default: [], // Starts as an empty array
+      type: [playerSchema],
+      default: [],
     },
     captinId: {
       type: mongoose.Schema.Types.ObjectId,
