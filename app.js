@@ -6,27 +6,32 @@ import connectToDB from "./dataBase/mongodb.js";
 import Users from "./Routes/Users.js";
 import errorMiddeleware from "./middelewar/error.js";
 import Player from "./Routes/Players.js";
+import { apiLimiter } from "./middelewar/rateLimiter.js";
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-//the auth route
+// Apply rate limiter
+app.use(apiLimiter);
+
+// The auth route
 app.use("/auth", auth);
 
-//the user route
+// The user route
 app.use("/users", Users);
 
-//the player route
+// The player route
 app.use("/Player", Player);
 
-//error handler
+// Error handler
 app.use(errorMiddeleware);
 
 app.get("/", (req, res) => {
-  res.send("welcom to the supbscription tracker api");
+  res.send("Welcome to the subscription tracker API");
 });
+
 connectToDB().then(() => {
   app.listen(PORT, () => {
     console.log(`Fantasy running at http://localhost:${PORT}`);
