@@ -40,6 +40,10 @@ const userSchema = new mongoose.Schema(
       ref: "Player",
       default: null,
     },
+    role: {
+      type: String,
+      default: "user",
+    },
   },
   { timestamps: true }
 );

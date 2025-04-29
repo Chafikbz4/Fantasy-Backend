@@ -1,4 +1,4 @@
-import { json, Router } from "express";
+import { Router } from "express";
 import { isAuth } from "../middelewar/AuthMidddelware.js";
 import {
   getUserdata,
@@ -7,8 +7,7 @@ import {
   PutPoit,
   UpdateTeam,
   RestartWeek,
-} from "../controlles/usercontrole.js";
-import User from "../models/user.js";
+} from "../controlles/usercontroller.js";
 
 const Users = Router();
 

@@ -6,7 +6,7 @@ import {
   GetPlayers,
   ResetPlayer,
   UpdatePlayer,
-} from "../controlles/playercontrolle.js";
+} from "../controlles/playercontroller.js";
 
 const Player = Router();
 // get all players

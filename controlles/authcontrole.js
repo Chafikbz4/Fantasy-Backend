@@ -5,7 +5,7 @@ import User from "../models/user.js";
 
 export const signUp = async (req, res, next) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
@@ -21,16 +21,26 @@ export const signUp = async (req, res, next) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // Create user
-    const newUser = await User.create({
+    const newUserData = {
       name,
       email,
       password: hashedPassword,
-    });
+    };
+
+    if (role) {
+      newUserData.role = role;
+    }
+
+    const newUser = await User.create(newUserData);
 
     // Generate JWT Token
-    const token = jwt.sign({ userId: newUser._id }, JWT_SECRET, {
-      expiresIn: "1d",
-    });
+    const token = jwt.sign(
+      { userId: newUser._id, tokenVersion: newUser.tokenVersion },
+      JWT_SECRET,
+      {
+        expiresIn: "1d",
+      }
+    );
 
     res.status(201).json({
       success: true,

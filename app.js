@@ -1,5 +1,6 @@
 import express from "express";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import { PORT } from "./config/env.js";
 import auth from "./Routes/auth.js";
 import connectToDB from "./dataBase/mongodb.js";
@@ -11,15 +12,16 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(cors());
 
 //the auth route
-app.use("/auth", auth);
+app.use("/api/auth", auth);
 
 //the user route
-app.use("/users", Users);
+app.use("/api/users", Users);
 
 //the player route
-app.use("/Player", Player);
+app.use("/api/Player", Player);
 
 //error handler
 app.use(errorMiddeleware);
